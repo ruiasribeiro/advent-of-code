@@ -1,7 +1,6 @@
 # day 1 of advent of code
 
 
-
 ## part 1 
 
 # read input file
@@ -26,7 +25,6 @@ for n1 in nums:
 
 # print the result
 print(res)
-
 
 
 ## part 2
