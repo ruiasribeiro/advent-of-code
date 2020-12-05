@@ -1,8 +1,6 @@
 # day 5 of advent of code
 
 
-## part 1
-
 def main():
     # read input file
     with open('day5/input', 'r') as fp:
@@ -14,7 +12,12 @@ def main():
             if line != '': 
                 lines.append(line)
 
+    # # # # # # # # # # # # # # # # # # # # # # # # #
+    
+    ## part 1
+
     biggest = 0
+    ids = []
     for line in lines:
 
         lower = 0
@@ -37,10 +40,26 @@ def main():
         
         column = lower
 
-        if (row * 8 + column) > biggest:
-            biggest = row * 8 + column 
+        id = row * 8 + column
+        ids.append(id)
+
+        if id > biggest:
+            biggest = id
 
     print(biggest)
+
+    # # # # # # # # # # # # # # # # # # # # # # # # #
+
+    ## part 2
+
+    ids.sort()
+    result = 0
+    for i in range(127 * 8 + 7):
+        if ids[i + 1] - ids[i] > 1:
+            result = ids[i] + 1
+            break
+
+    print(result)
 
 
 if __name__ == '__main__':
