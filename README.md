@@ -1,2 +1,2 @@
 # AdventOfCode
-Repo for Advent of Code.
+Repo for [Advent of Code](https://adventofcode.com/).
