@@ -1,4 +1,4 @@
-# day 6 of advent of code
+# day 7 of advent of code
 
 import re
 
@@ -24,6 +24,7 @@ def bags_inside(dict, bags):
 
 
 def main():
+    
     # read input file
     with open('day7/input', 'r') as fp:
         line = fp.readline()
