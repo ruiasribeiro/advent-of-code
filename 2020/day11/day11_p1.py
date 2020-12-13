@@ -1,4 +1,4 @@
-# day 11 of advent of code
+# day 11 (part 1) of advent of code
 
 
 n_rows = 0
@@ -38,7 +38,6 @@ def apply_rules():
             adjs = get_adjs(i, j)
             occ = occupied(adjs)
 
-            # first rule
             if seat == 'L' and occ == 0:
                 new_line.append('#')
             elif seat == '#' and occ >= 4:
