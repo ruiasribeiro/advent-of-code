@@ -1,4 +1,4 @@
-# day 12 of advent of code
+# day 12 (part 1) of advent of code
 
 
 dir = 'E'
@@ -39,13 +39,13 @@ def move(instr_dir, value):
     global x, y
 
     if instr_dir == 'N':
-        x += value
-    elif instr_dir == 'E':
         y += value
+    elif instr_dir == 'E':
+        x += value
     elif instr_dir == 'S':
-        x -= value
-    elif instr_dir == 'W':
         y -= value
+    elif instr_dir == 'W':
+        x -= value
 
 
 def rotate(turn, degrees):
@@ -75,8 +75,6 @@ def main():
         while line:
             instructions.append((line[0], int(line[1:])))
             line = fp.readline().strip()
-
-    dirs = ['N', 'E', 'S', 'W']
 
     for instr in instructions:
         action = instr[0]
