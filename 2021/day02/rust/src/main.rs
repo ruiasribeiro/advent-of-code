@@ -24,18 +24,32 @@ impl Command {
     }
 }
 
+fn part1(commands: &[Command]) -> (u32, u32) {
+    commands.iter().fold((0, 0), |(h, d), c| match c {
+        Command::Forward(v) => (h + v, d),
+        Command::Down(v) => (h, d + v),
+        Command::Up(v) => (h, d - v),
+    })
+}
+
+fn part2(commands: &[Command]) -> (u32, u32, u32) {
+    commands.iter().fold((0, 0, 0), |(h, d, a), c| match c {
+        Command::Forward(v) => (h + v, d + (a * v), a),
+        Command::Down(v) => (h, d, a + v),
+        Command::Up(v) => (h, d, a - v),
+    })
+}
+
 fn main() {
     let contents = fs::read_to_string("../input.txt").expect("Could not read file");
 
-    let (hor, dep) =
-        contents
-            .lines()
-            .flat_map(|c| Command::new(c))
-            .fold((0, 0), |(h, d), c| match c {
-                Command::Forward(v) => (h + v, d),
-                Command::Down(v) => (h, d + v),
-                Command::Up(v) => (h, d - v),
-            });
+    let commands = contents
+        .lines()
+        .flat_map(|c| Command::new(c))
+        .collect::<Vec<_>>();
 
-    println!("Result: {}", hor * dep);
+    let (hor, dep) = part1(&commands);
+    println!("Part 1: {}", hor * dep);
+    let (hor, dep, _) = part2(&commands);
+    println!("Part 2: {}", hor * dep);
 }
