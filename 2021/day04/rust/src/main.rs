@@ -101,12 +101,37 @@ fn main() {
     }
     boards.push(BingoBoard::parse(&cur_board));
 
+    // part 1
+
+    'outer: for &draw in &draws {
+        for board in boards.iter_mut() {
+            board.mark_number(draw);
+
+            if board.is_complete() {
+                println!("Part 1: {}", (draw as u64) * board.get_unmarked_sum());
+                break 'outer;
+            }
+        }
+    }
+
+    // part 2
+
     for draw in draws {
         for board in boards.iter_mut() {
             board.mark_number(draw);
-            if board.is_complete() {
-                println!("Part 1: {}", (draw as u64) * board.get_unmarked_sum());
+        }
+
+        let mut i = 0;
+        while i < boards.len() {
+            let complete = boards[i].is_complete();
+
+            if boards.len() == 1 && complete {
+                println!("Part 2: {}", (draw as u64) * boards[0].get_unmarked_sum());
                 return;
+            } else if complete {
+                boards.remove(i);
+            } else {
+                i += 1;
             }
         }
     }
