@@ -40,50 +40,23 @@ impl Floor {
                 self.cover_pos((x, fst.1));
             }
         } else {
-            // comment this entire else branch for part 1 result
-            let mut x = fst.0;
-            let mut y = fst.1;
-
+            // comment this entire branch for part 1 result
             if fst.0 < lst.0 && fst.1 < lst.1 {
-                let mut diff = (lst.0 - fst.0) as i64;
-                while diff >= 0 {
-                    self.cover_pos((x, y));
-                    diff -= 1;
-                    x += 1;
-                    y += 1;
-                }
+                (fst.0..=lst.0)
+                    .zip(fst.1..=lst.1)
+                    .for_each(|(x, y)| self.cover_pos((x, y)));
             } else if fst.0 > lst.0 && fst.1 < lst.1 {
-                let mut diff = (fst.0 - lst.0) as i64;
-                while diff >= 0 {
-                    self.cover_pos((x, y));
-                    diff -= 1;
-                    if x > 0 {
-                        x -= 1
-                    };
-                    y += 1;
-                }
+                ((lst.0..=fst.0).rev())
+                    .zip(fst.1..=lst.1)
+                    .for_each(|(x, y)| self.cover_pos((x, y)));
             } else if fst.0 < lst.0 && fst.1 > lst.1 {
-                let mut diff = (lst.0 - fst.0) as i64;
-                while diff >= 0 {
-                    self.cover_pos((x, y));
-                    diff -= 1;
-                    x += 1;
-                    if y > 0 {
-                        y -= 1
-                    };
-                }
+                (fst.0..=lst.0)
+                    .zip((lst.1..=fst.1).rev())
+                    .for_each(|(x, y)| self.cover_pos((x, y)));
             } else {
-                let mut diff = (fst.0 - lst.0) as i64;
-                while diff >= 0 {
-                    self.cover_pos((x, y));
-                    diff -= 1;
-                    if x > 0 {
-                        x -= 1
-                    };
-                    if y > 0 {
-                        y -= 1
-                    };
-                }
+                ((lst.0..=fst.0).rev())
+                    .zip((lst.1..=fst.1).rev())
+                    .for_each(|(x, y)| self.cover_pos((x, y)));
             }
         }
     }
