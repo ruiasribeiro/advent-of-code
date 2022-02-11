@@ -1,34 +1,44 @@
-use std::{fs, iter::repeat};
+use std::{collections::HashMap, fs};
 
 struct LanternFish {
-    days_left: u8,
+    fishes: HashMap<u8, usize>,
 }
 
 impl LanternFish {
     fn new() -> Self {
-        Self { days_left: 8 }
-    }
-
-    fn new_with_days(days_left: u8) -> Self {
-        Self { days_left }
-    }
-
-    // returns a bool that indicates if it created a new lanternfish
-    fn next_day(&mut self) -> bool {
-        if self.days_left == 0 {
-            self.days_left = 6;
-            true
-        } else {
-            self.days_left -= 1;
-            false
+        Self {
+            fishes: HashMap::new(),
         }
+    }
+
+    fn add(&mut self, days_left: u8) {
+        *self.fishes.entry(days_left).or_insert(0) += 1;
+    }
+
+    fn next_day(&mut self) {
+        let mut new_map = HashMap::new();
+
+        self.fishes.iter().for_each(|(k, v)| {
+            if *k == 0 {
+                *new_map.entry(6).or_insert(0) += *v;
+                *new_map.entry(8).or_insert(0) += *v;
+            } else {
+                *new_map.entry(*k - 1).or_insert(0) += *v;
+            }
+        });
+
+        self.fishes = new_map;
+    }
+
+    fn count(&self) -> usize {
+        self.fishes.values().sum()
     }
 }
 
 impl Clone for LanternFish {
     fn clone(&self) -> Self {
         Self {
-            days_left: self.days_left,
+            fishes: self.fishes.clone(),
         }
     }
 }
@@ -36,20 +46,24 @@ impl Clone for LanternFish {
 fn main() {
     let contents = fs::read_to_string("../input.txt").expect("Could not read file");
 
-    let mut fishes = contents
+    let mut fishes = LanternFish::new();
+
+    contents
         .split(',')
         .map(|s| s.trim().parse().unwrap())
-        .map(LanternFish::new_with_days)
-        .collect::<Vec<_>>();
+        .for_each(|v| fishes.add(v));
+
+    let mut part2 = fishes.clone();
 
     for _ in 1..=80 {
-        let new_fishes = fishes
-            .iter_mut()
-            .map(|f| f.next_day())
-            .filter(|&x| x)
-            .count();
-        fishes.append(&mut repeat(LanternFish::new()).take(new_fishes).collect());
+        fishes.next_day();
     }
 
-    println!("Part 1: {}", fishes.len());
+    println!("Part 1: {}", fishes.count());
+
+    for _ in 1..=256 {
+        part2.next_day();
+    }
+
+    println!("Part 2: {}", part2.count());
 }
