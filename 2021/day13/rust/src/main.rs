@@ -12,7 +12,7 @@ fn main() {
 
     let (dots, folds) = contents.split_once("\n\n").unwrap();
 
-    let mut dots: HashSet<(usize, usize)> = dots
+    let dots: HashSet<(usize, usize)> = dots
         .lines()
         .map(|line| line.split_once(',').unwrap())
         .map(|(x, y)| (x.parse().unwrap(), y.parse().unwrap()))
@@ -43,7 +43,7 @@ fn main() {
 
     // Part 2
 
-    dots = folds
+    let dots = folds
         .iter()
         .fold(dots, |folded_dots, fold| fold_paper(&folded_dots, fold));
 
