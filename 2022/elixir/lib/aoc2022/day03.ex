@@ -1,5 +1,5 @@
-defmodule Main do
-  @file_path "input.txt"
+defmodule Aoc2022.Day03 do
+  @file_path "data/day03/input.txt"
 
   def run do
     file_stream =
@@ -64,5 +64,3 @@ defmodule Main do
     end
   end
 end
-
-Main.run()

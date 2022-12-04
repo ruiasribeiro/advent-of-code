@@ -1,5 +1,5 @@
-defmodule Main do
-  @file_path "input.txt"
+defmodule Aoc2022.Day02 do
+  @file_path "data/day02/input.txt"
 
   def run do
     rounds =
@@ -49,5 +49,3 @@ defmodule Main do
   defp outcome_pt2(["C", "Y"]), do: 3 + 3
   defp outcome_pt2(["C", "Z"]), do: 1 + 6
 end
-
-Main.run()

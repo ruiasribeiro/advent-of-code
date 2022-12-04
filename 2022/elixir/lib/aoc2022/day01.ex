@@ -1,5 +1,5 @@
-defmodule Main do
-  @file_path "input.txt"
+defmodule Aoc2022.Day01 do
+  @file_path "data/day01/input.txt"
 
   def run do
     calories =
@@ -16,10 +16,8 @@ defmodule Main do
     IO.puts("Part 2: #{part2}")
   end
 
-  def inventory?([""]), do: false
-  def inventory?(_), do: true
+  defp inventory?([""]), do: false
+  defp inventory?(_), do: true
 
-  def total_calories(inv), do: inv |> Enum.map(&String.to_integer/1) |> Enum.sum()
+  defp total_calories(inv), do: inv |> Enum.map(&String.to_integer/1) |> Enum.sum()
 end
-
-Main.run()

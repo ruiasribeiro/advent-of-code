@@ -1,5 +1,5 @@
-defmodule Main do
-  @file_path "input.txt"
+defmodule Aoc2022.Day04 do
+  @file_path "data/day04/input.txt"
 
   def run do
     pairs =
@@ -37,6 +37,3 @@ defmodule Main do
       (beg1 >= beg2 and beg1 <= end2) or (end1 >= beg2 and end1 <= end2) or
         (beg2 >= beg1 and beg2 <= end1) or (end2 >= beg1 and end2 <= end1)
 end
-
-{u_secs, :ok} = :timer.tc(Main, :run, [])
-IO.puts("Took #{u_secs / 1000} ms")
