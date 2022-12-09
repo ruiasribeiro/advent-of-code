@@ -19,8 +19,6 @@ defmodule Aoc2022.Day07 do
       |> Enum.filter(&(&1 < 100_000))
       |> Enum.sum()
 
-    IO.puts("Part 1: #{part1}")
-
     occupied = Map.get(directory_sizes, "/")
 
     part2 =
@@ -29,7 +27,7 @@ defmodule Aoc2022.Day07 do
       |> Enum.sort()
       |> Enum.find(occupied, &(occupied - &1 + 30_000_000 < 70_000_000))
 
-    IO.puts("Part 2: #{part2}")
+    {part1, part2}
   end
 
   # chunk_while functions

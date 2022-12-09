@@ -14,8 +14,6 @@ defmodule Aoc2022.Day03 do
       |> Stream.map(&priority/1)
       |> Enum.sum()
 
-    IO.puts("Part 1: #{part1}")
-
     part2 =
       file_stream
       |> Stream.chunk_every(3)
@@ -23,7 +21,7 @@ defmodule Aoc2022.Day03 do
       |> Stream.map(&priority/1)
       |> Enum.sum()
 
-    IO.puts("Part 2: #{part2}")
+    {part1, part2}
   end
 
   # Utils

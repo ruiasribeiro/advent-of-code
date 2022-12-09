@@ -10,8 +10,10 @@ defmodule Aoc2022.Day08 do
       |> Stream.map(fn line -> Enum.map(line, &String.to_integer/1) end)
       |> Enum.to_list()
 
-    IO.puts("Part 1: #{count_visible_trees(grid)}")
-    IO.puts("Part 2: #{get_best_tree(grid)}")
+    part1 = count_visible_trees(grid)
+    part2 = get_best_tree(grid)
+
+    {part1, part2}
   end
 
   # Utils

@@ -10,10 +10,9 @@ defmodule Aoc2022.Day01 do
       |> Stream.map(&total_calories/1)
 
     part1 = Enum.max(calories)
-    IO.puts("Part 1: #{part1}")
-
     part2 = calories |> Enum.sort(:desc) |> Enum.take(3) |> Enum.sum()
-    IO.puts("Part 2: #{part2}")
+
+    {part1, part2}
   end
 
   defp inventory?([""]), do: false

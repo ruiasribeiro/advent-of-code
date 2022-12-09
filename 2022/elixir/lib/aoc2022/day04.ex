@@ -14,14 +14,12 @@ defmodule Aoc2022.Day04 do
       |> Stream.map(&fully_contain?/1)
       |> Enum.count(&Function.identity/1)
 
-    IO.puts("Part 1: #{part1}")
-
     part2 =
       pairs
       |> Stream.map(&overlap?/1)
       |> Enum.count(&Function.identity/1)
 
-    IO.puts("Part 2: #{part2}")
+    {part1, part2}
   end
 
   def parse_pairs(list), do: list |> Enum.map(&parse_interval/1) |> List.to_tuple()

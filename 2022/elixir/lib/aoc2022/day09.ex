@@ -12,8 +12,10 @@ defmodule Aoc2022.Day09 do
       # potential optimization: avoid conversion to list and exploit laziness of stream
       |> Enum.to_list()
 
-    IO.puts("Part 1: #{step(moves, 2)}")
-    IO.puts("Part 2: #{step(moves, 10)}")
+    part1 = step(moves, 2)
+    part2 = step(moves, 10)
+
+    {part1, part2}
   end
 
   defp step(moves, num_knots), do: step(moves, List.duplicate({0, 0}, num_knots), MapSet.new())

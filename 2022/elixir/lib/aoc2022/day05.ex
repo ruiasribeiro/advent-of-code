@@ -24,10 +24,9 @@ defmodule Aoc2022.Day05 do
     moves = moves |> Enum.map(&String.trim/1) |> Enum.map(&Move.parse/1)
 
     part1 = apply_moves(moves, stacks, true)
-    IO.puts("Part 1: #{part1}")
-
     part2 = apply_moves(moves, stacks, false)
-    IO.puts("Part 2: #{part2}")
+
+    {part1, part2}
   end
 
   defp stacks([header | lines]) do

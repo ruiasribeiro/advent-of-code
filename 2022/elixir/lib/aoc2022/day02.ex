@@ -11,14 +11,12 @@ defmodule Aoc2022.Day02 do
       |> Stream.map(&outcome_pt1/1)
       |> Enum.sum()
 
-    IO.puts("Part 1: #{part1}")
-
     part2 =
       rounds
       |> Stream.map(&outcome_pt2/1)
       |> Enum.sum()
 
-    IO.puts("Part 2: #{part2}")
+    {part1, part2}
   end
 
   # Part 1
