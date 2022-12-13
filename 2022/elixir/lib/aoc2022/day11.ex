@@ -25,7 +25,7 @@ defmodule Aoc2022.Day11 do
     modulo = monkeys |> Enum.map(fn {_key, val} -> val.test end) |> Enum.product()
 
     part2 =
-      1..10000
+      1..10_000
       |> Enum.reduce(monkeys, fn _, acc -> run_round_pt2(acc, modulo) end)
       |> Map.to_list()
       |> Enum.map(fn {_key, val} -> val.inspections end)

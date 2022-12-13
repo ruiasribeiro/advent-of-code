@@ -68,9 +68,8 @@ defmodule Aoc2022.Day05 do
 
         List.replace_at(acc, move.dest, dest_stack)
       end)
-      |> Enum.map(fn
+      |> Enum.map_join(fn
         [] -> ""
         [head | _] -> head
       end)
-      |> Enum.join()
 end
