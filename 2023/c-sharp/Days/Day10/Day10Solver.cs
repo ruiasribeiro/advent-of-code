@@ -17,8 +17,18 @@ public partial class Day10Solver : ISolver
     private static long SolvePart1(string[] lines)
     {
         var grid = ParseLines(lines);
+
         RemoveUnconnectedPipes(grid);
 
+        var startPosition = GetStartPosition(grid);
+
+        var visited = TraversePipes(grid, startPosition);
+
+        return visited.MaxBy(elem => elem.Value).Value;
+    }
+
+    private static Position GetStartPosition(List<List<TileType>> grid)
+    {
         Position? startPosition = null;
         for (var i = 0; i < grid.Count; ++i)
         {
@@ -42,44 +52,7 @@ public partial class Day10Solver : ISolver
             throw new Exception();
         }
 
-        Queue<Pipe> toVisit = [];
-        toVisit.Enqueue(new(startPosition, 0));
-
-        Dictionary<Position, int> visited = [];
-
-        while (toVisit.Count != 0)
-        {
-            var pipe = toVisit.Dequeue();
-
-            var adjacentPipes = GetNeighbors(grid, pipe.Position)
-                .Where(
-                    n =>
-                        Connected(
-                            pipe.Position,
-                            grid[pipe.Position.Line][pipe.Position.Column],
-                            n,
-                            grid[n.Line][n.Column]
-                        )
-                )
-                .ToList();
-
-            foreach (var adjacent in adjacentPipes)
-            {
-                if (!visited.ContainsKey(adjacent))
-                {
-                    toVisit.Enqueue(new(adjacent, pipe.Distance + 1));
-                }
-            }
-
-            if (!visited.ContainsKey(pipe.Position))
-            {
-                visited.Add(pipe.Position, pipe.Distance);
-            }
-        }
-
-        // PrintGrid(grid);
-
-        return visited.MaxBy(elem => elem.Value).Value;
+        return startPosition;
     }
 
     private static long SolvePart2(string[] lines)
@@ -123,6 +96,49 @@ public partial class Day10Solver : ISolver
                 }
             }
         } while (changed);
+    }
+
+    private static Dictionary<Position, int> TraversePipes(
+        List<List<TileType>> grid,
+        Position startPosition
+    )
+    {
+        Queue<Pipe> toVisit = [];
+        toVisit.Enqueue(new(startPosition, 0));
+
+        Dictionary<Position, int> visited = [];
+
+        while (toVisit.Count != 0)
+        {
+            var pipe = toVisit.Dequeue();
+
+            var adjacentPipes = GetNeighbors(grid, pipe.Position)
+                .Where(
+                    n =>
+                        Connected(
+                            pipe.Position,
+                            grid[pipe.Position.Line][pipe.Position.Column],
+                            n,
+                            grid[n.Line][n.Column]
+                        )
+                )
+                .ToList();
+
+            foreach (var adjacent in adjacentPipes)
+            {
+                if (!visited.ContainsKey(adjacent))
+                {
+                    toVisit.Enqueue(new(adjacent, pipe.Distance + 1));
+                }
+            }
+
+            if (!visited.ContainsKey(pipe.Position))
+            {
+                visited.Add(pipe.Position, pipe.Distance);
+            }
+        }
+
+        return visited;
     }
 
     static List<Position> GetNeighbors(List<List<TileType>> grid, Position position)
