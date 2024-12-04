@@ -10,6 +10,10 @@ fn main() {
             days::day02::solve_part1("inputs/day02/input.txt"),
             days::day02::solve_part2("inputs/day02/input.txt"),
         ),
+        (
+            days::day03::solve_part1("inputs/day03/input.txt"),
+            days::day03::solve_part2("inputs/day03/input.txt"),
+        ),
     ];
 
     for (day, (part1, part2)) in results.iter().enumerate() {
