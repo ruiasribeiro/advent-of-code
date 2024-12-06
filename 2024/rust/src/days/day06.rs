@@ -3,10 +3,7 @@ use std::{
     fmt::Display,
     fs::File,
     io::{BufRead, BufReader},
-    time::{SystemTime, UNIX_EPOCH},
 };
-
-use rayon::iter::{IntoParallelRefIterator, IntoParallelRefMutIterator, ParallelIterator};
 
 #[derive(Clone, Copy, Eq, Hash, PartialEq)]
 enum Direction {
@@ -90,8 +87,10 @@ impl Map {
         }
     }
 
-    fn generate_all_obstruction_possibilities(path: &str) -> Vec<Self> {
+    fn generate_all_obstruction_possibilities(path: &str) -> impl Iterator<Item = Map> {
         let original_map = Self::from_file(path);
+        let row_count = original_map.map.len();
+        let col_count = original_map.map[0].len();
 
         let Position {
             row: starting_row,
@@ -99,21 +98,19 @@ impl Map {
             direction: _,
         } = original_map.current_position;
 
-        let mut possibilities = vec![];
-
-        for row in 0..original_map.map.len() {
-            for col in 0..original_map.map[0].len() {
+        (0..row_count)
+            .flat_map(move |row| (0..col_count).map(move |col| (row, col)))
+            .filter_map(move |(row, col)| {
                 if let PositionType::Unvisited = original_map.map[row][col] {
                     if row != starting_row || col != starting_col {
                         let mut copy = original_map.clone();
                         copy.map[row][col] = PositionType::Obstruction;
-                        possibilities.push(copy);
+                        return Some(copy);
                     }
                 }
-            }
-        }
 
-        possibilities
+                None
+            })
     }
 
     fn step(&mut self) -> Result<(), EndingReason> {
@@ -263,10 +260,7 @@ pub fn solve_part1(path: &str) -> i32 {
 }
 
 pub fn solve_part2(path: &str) -> i32 {
-    let start = SystemTime::now().duration_since(UNIX_EPOCH).unwrap();
-
-    let res = Map::generate_all_obstruction_possibilities(path)
-        .par_iter()
+    Map::generate_all_obstruction_possibilities(path)
         .map(|map| {
             let mut map = map.to_owned();
 
@@ -279,10 +273,5 @@ pub fn solve_part2(path: &str) -> i32 {
             result.unwrap_err()
         })
         .filter(|reason| *reason == EndingReason::StuckInLoop)
-        .count() as i32;
-    let end = SystemTime::now().duration_since(UNIX_EPOCH).unwrap();
-
-    println!("elapsed time: {:?}", end - start);
-
-    res
+        .count() as i32
 }
