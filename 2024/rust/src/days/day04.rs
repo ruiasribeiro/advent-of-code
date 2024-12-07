@@ -115,29 +115,38 @@ pub fn solve_part2(path: &Path) -> String {
 
     for row in 1..(row_count - 1) {
         for col in 1..(col_count - 1) {
-            if file[row][col] == 'A'
-                && file[row - 1][col - 1] == 'M'
+            if file[row][col] != 'A' {
+                continue;
+            }
+
+            if file[row - 1][col - 1] == 'M'
                 && file[row - 1][col + 1] == 'M'
                 && file[row + 1][col + 1] == 'S'
                 && file[row + 1][col - 1] == 'S'
             {
                 counter += 1;
-            } else if file[row][col] == 'A'
-                && file[row - 1][col - 1] == 'S'
+                continue;
+            }
+
+            if file[row - 1][col - 1] == 'S'
                 && file[row - 1][col + 1] == 'M'
                 && file[row + 1][col + 1] == 'M'
                 && file[row + 1][col - 1] == 'S'
             {
                 counter += 1;
-            } else if file[row][col] == 'A'
-                && file[row - 1][col - 1] == 'S'
+                continue;
+            }
+
+            if file[row - 1][col - 1] == 'S'
                 && file[row - 1][col + 1] == 'S'
                 && file[row + 1][col + 1] == 'M'
                 && file[row + 1][col - 1] == 'M'
             {
                 counter += 1;
-            } else if file[row][col] == 'A'
-                && file[row - 1][col - 1] == 'M'
+                continue;
+            }
+
+            if file[row - 1][col - 1] == 'M'
                 && file[row - 1][col + 1] == 'S'
                 && file[row + 1][col + 1] == 'S'
                 && file[row + 1][col - 1] == 'M'
