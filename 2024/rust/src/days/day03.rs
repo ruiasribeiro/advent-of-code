@@ -5,7 +5,7 @@ use std::{
 
 use regex::Regex;
 
-pub fn solve_part1(path: &str) -> i32 {
+pub fn solve_part1(path: &str) -> String {
     let file = File::open(path).unwrap();
     let re = Regex::new(r"mul\((\d+),(\d+)\)").unwrap();
 
@@ -18,10 +18,11 @@ pub fn solve_part1(path: &str) -> i32 {
                 .map(|(_, [lhs, rhs])| lhs.parse::<i32>().unwrap() * rhs.parse::<i32>().unwrap())
                 .sum::<i32>()
         })
-        .sum()
+        .sum::<i32>()
+        .to_string()
 }
 
-pub fn solve_part2(path: &str) -> i32 {
+pub fn solve_part2(path: &str) -> String {
     let file = File::open(path).unwrap();
 
     let re = Regex::new(r"(mul\((\d+),(\d+)\))|(do\(\))|(don't\(\))").unwrap();
@@ -52,5 +53,5 @@ pub fn solve_part2(path: &str) -> i32 {
         }
     }
 
-    return sum;
+    sum.to_string()
 }

@@ -1,6 +1,6 @@
 mod days;
 
-type SolveDay = Box<dyn Fn() -> i32>;
+type SolveDay = Box<dyn Fn() -> String>;
 
 fn main() {
     let results: Vec<(SolveDay, SolveDay)> = vec![
@@ -25,8 +25,8 @@ fn main() {
             Box::new(|| days::day05::solve_part2("inputs/day05/input.txt")),
         ),
         (
-            Box::new(|| days::day06::solve_part1("inputs/day06/input.txt")),
-            Box::new(|| days::day06::solve_part2("inputs/day06/input.txt")),
+            Box::new(|| String::from("skipped")), //days::day06::solve_part1("inputs/day06/input.txt")),
+            Box::new(|| String::from("skipped")), //days::day06::solve_part2("inputs/day06/input.txt")),
         ),
     ];
 

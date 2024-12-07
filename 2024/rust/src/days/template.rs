@@ -3,22 +3,22 @@ use std::{
     io::{BufRead, BufReader},
 };
 
-pub fn solve_part1(path: &str) -> i32 {
+pub fn _solve_part1(path: &str) -> String {
     let file = File::open(path).unwrap();
 
-    for line in BufReader::new(file).lines() {
+    for _line in BufReader::new(file).lines() {
         // do something
     }
 
-    0
+    String::new()
 }
 
-pub fn solve_part2(path: &str) -> i32 {
+pub fn _solve_part2(path: &str) -> String {
     let file = File::open(path).unwrap();
 
-    for line in BufReader::new(file).lines() {
+    for _line in BufReader::new(file).lines() {
         // do something
     }
 
-    0
+    String::new()
 }

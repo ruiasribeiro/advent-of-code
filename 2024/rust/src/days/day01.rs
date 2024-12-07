@@ -5,7 +5,7 @@ use std::{
     iter::zip,
 };
 
-pub fn solve_part1(path: &str) -> i32 {
+pub fn solve_part1(path: &str) -> String {
     let file = File::open(path).unwrap();
 
     let mut left: Vec<i32> = vec![];
@@ -25,12 +25,13 @@ pub fn solve_part1(path: &str) -> i32 {
     left.sort();
     right.sort();
 
-    let result = zip(left, right).map(|(l, r)| (l - r).abs()).sum();
-
-    result
+    zip(left, right)
+        .map(|(l, r)| (l - r).abs())
+        .sum::<i32>()
+        .to_string()
 }
 
-pub fn solve_part2(path: &str) -> i32 {
+pub fn solve_part2(path: &str) -> String {
     let file = File::open(path).unwrap();
 
     let mut left: Vec<i32> = vec![];
@@ -54,8 +55,7 @@ pub fn solve_part2(path: &str) -> i32 {
         }
     }
 
-    let result = left
-        .iter()
+    left.iter()
         .map(|num| {
             if let Some(val) = right.get(num) {
                 num * (*val)
@@ -63,7 +63,6 @@ pub fn solve_part2(path: &str) -> i32 {
                 0
             }
         })
-        .sum();
-
-    result
+        .sum::<i32>()
+        .to_string()
 }

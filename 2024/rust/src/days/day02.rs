@@ -4,24 +4,26 @@ use std::{
     io::{BufRead, BufReader},
 };
 
-pub fn solve_part1(path: &str) -> i32 {
+pub fn solve_part1(path: &str) -> String {
     let file = File::open(path).unwrap();
 
     BufReader::new(file)
         .lines()
         .map(|x| x.unwrap())
         .filter(|x| is_report_safe(x))
-        .count() as i32
+        .count()
+        .to_string()
 }
 
-pub fn solve_part2(path: &str) -> i32 {
+pub fn solve_part2(path: &str) -> String {
     let file = File::open(path).unwrap();
 
     BufReader::new(file)
         .lines()
         .map(|x| x.unwrap())
         .filter(|x| is_report_safe_v2(x))
-        .count() as i32
+        .count()
+        .to_string()
 }
 
 fn is_report_safe(line: &str) -> bool {

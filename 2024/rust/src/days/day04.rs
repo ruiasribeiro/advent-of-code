@@ -3,7 +3,7 @@ use std::{
     io::{BufRead, BufReader},
 };
 
-pub fn solve_part1(path: &str) -> i32 {
+pub fn solve_part1(path: &str) -> String {
     let file = File::open(path).unwrap();
 
     let file = BufReader::new(file)
@@ -96,10 +96,10 @@ pub fn solve_part1(path: &str) -> i32 {
         }
     }
 
-    counter
+    counter.to_string()
 }
 
-pub fn solve_part2(path: &str) -> i32 {
+pub fn solve_part2(path: &str) -> String {
     let file = File::open(path).unwrap();
 
     let file = BufReader::new(file)
@@ -146,5 +146,5 @@ pub fn solve_part2(path: &str) -> i32 {
         }
     }
 
-    counter
+    counter.to_string()
 }

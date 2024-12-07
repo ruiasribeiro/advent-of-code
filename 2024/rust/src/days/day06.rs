@@ -251,15 +251,15 @@ impl Display for Map {
     }
 }
 
-pub fn solve_part1(path: &str) -> i32 {
+pub fn solve_part1(path: &str) -> String {
     let mut map = Map::from_file(path);
 
     while let Ok(()) = map.step() {}
 
-    map.count_distinct_visited_positions() as i32
+    map.count_distinct_visited_positions().to_string()
 }
 
-pub fn solve_part2(path: &str) -> i32 {
+pub fn solve_part2(path: &str) -> String {
     Map::generate_all_obstruction_possibilities(path)
         .map(|map| {
             let mut map = map.to_owned();
@@ -273,5 +273,6 @@ pub fn solve_part2(path: &str) -> i32 {
             result.unwrap_err()
         })
         .filter(|reason| *reason == EndingReason::StuckInLoop)
-        .count() as i32
+        .count()
+        .to_string()
 }

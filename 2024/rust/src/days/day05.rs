@@ -5,17 +5,18 @@ use std::{
     vec,
 };
 
-pub fn solve_part1(path: &str) -> i32 {
+pub fn solve_part1(path: &str) -> String {
     let (valid_pages, _invalid_pages, _precedence_mapping) = process_input(path);
 
     valid_pages
         .iter()
         .map(|page| page.get(page.len() / 2))
         .map(Option::unwrap)
-        .sum::<u32>() as i32
+        .sum::<u32>()
+        .to_string()
 }
 
-pub fn solve_part2(path: &str) -> i32 {
+pub fn solve_part2(path: &str) -> String {
     let (_valid_pages, invalid_pages, precedence_mapping) = process_input(path);
 
     invalid_pages
@@ -52,7 +53,8 @@ pub fn solve_part2(path: &str) -> i32 {
             let middle = frozen_page.len() / 2;
             frozen_page.get(middle).unwrap().clone()
         })
-        .sum::<u32>() as i32
+        .sum::<u32>()
+        .to_string()
 }
 
 fn process_input(path: &str) -> (Vec<Vec<u32>>, Vec<Vec<u32>>, HashMap<u32, HashSet<u32>>) {
