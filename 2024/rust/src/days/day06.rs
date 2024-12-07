@@ -3,6 +3,7 @@ use std::{
     fmt::Display,
     fs::File,
     io::{BufRead, BufReader},
+    path::Path,
 };
 
 #[derive(Clone, Copy, Eq, Hash, PartialEq)]
@@ -14,7 +15,7 @@ enum Direction {
 }
 
 impl Direction {
-    fn turn(&self) -> Self {
+    fn turn(self) -> Self {
         match self {
             Direction::Up => Direction::Right,
             Direction::Right => Direction::Down,
@@ -51,7 +52,7 @@ struct Map {
 }
 
 impl Map {
-    fn from_file(path: &str) -> Self {
+    fn from_file(path: &Path) -> Self {
         let file = File::open(path).unwrap();
         let mut current_position = None;
 
@@ -87,7 +88,7 @@ impl Map {
         }
     }
 
-    fn generate_all_obstruction_possibilities(path: &str) -> impl Iterator<Item = Map> {
+    fn generate_all_obstruction_possibilities(path: &Path) -> impl Iterator<Item = Map> {
         let original_map = Self::from_file(path);
         let row_count = original_map.map.len();
         let col_count = original_map.map[0].len();
@@ -235,7 +236,7 @@ impl Map {
 
 impl Display for Map {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        for row in self.map.iter() {
+        for row in &self.map {
             for position in row {
                 match position {
                     PositionType::Unvisited => write!(f, ".")?,
@@ -251,7 +252,7 @@ impl Display for Map {
     }
 }
 
-pub fn solve_part1(path: &str) -> String {
+pub fn solve_part1(path: &Path) -> String {
     let mut map = Map::from_file(path);
 
     while let Ok(()) = map.step() {}
@@ -259,10 +260,10 @@ pub fn solve_part1(path: &str) -> String {
     map.count_distinct_visited_positions().to_string()
 }
 
-pub fn solve_part2(path: &str) -> String {
+pub fn solve_part2(path: &Path) -> String {
     Map::generate_all_obstruction_possibilities(path)
         .map(|map| {
-            let mut map = map.to_owned();
+            let mut map = map.clone();
 
             let mut result = Ok(());
 

@@ -1,11 +1,12 @@
 use std::{
     fs::File,
     io::{BufRead, BufReader},
+    path::Path,
 };
 
 use regex::Regex;
 
-pub fn solve_part1(path: &str) -> String {
+pub fn solve_part1(path: &Path) -> String {
     let file = File::open(path).unwrap();
     let re = Regex::new(r"mul\((\d+),(\d+)\)").unwrap();
 
@@ -22,7 +23,7 @@ pub fn solve_part1(path: &str) -> String {
         .to_string()
 }
 
-pub fn solve_part2(path: &str) -> String {
+pub fn solve_part2(path: &Path) -> String {
     let file = File::open(path).unwrap();
 
     let re = Regex::new(r"(mul\((\d+),(\d+)\))|(do\(\))|(don't\(\))").unwrap();
@@ -35,18 +36,18 @@ pub fn solve_part2(path: &str) -> String {
 
         for capture in re.captures_iter(&line) {
             if is_enabled {
-                if let Some(_) = capture.get(1) {
+                if capture.get(1).is_some() {
                     let lhs = capture.get(2).unwrap().as_str().parse::<i32>().unwrap();
                     let rhs = capture.get(3).unwrap().as_str().parse::<i32>().unwrap();
 
                     sum += lhs * rhs;
                 }
 
-                if let Some(_) = capture.get(5) {
+                if capture.get(5).is_some() {
                     is_enabled = false;
                     continue;
                 }
-            } else if let Some(_) = capture.get(4) {
+            } else if capture.get(4).is_some() {
                 is_enabled = true;
                 continue;
             }

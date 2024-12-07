@@ -1,9 +1,10 @@
 use std::{
     fs::File,
     io::{BufRead, BufReader},
+    path::Path,
 };
 
-pub fn solve_part1(path: &str) -> String {
+pub fn solve_part1(path: &Path) -> String {
     let file = File::open(path).unwrap();
 
     let file = BufReader::new(file)
@@ -27,7 +28,7 @@ pub fn solve_part1(path: &str) -> String {
                 counter += 1;
             }
 
-            if (col as i32) - 3 >= 0
+            if col >= 3
                 && file[row][col] == 'X'
                 && file[row][col - 1] == 'M'
                 && file[row][col - 2] == 'A'
@@ -45,7 +46,7 @@ pub fn solve_part1(path: &str) -> String {
                 counter += 1;
             }
 
-            if (row as i32) - 3 >= 0
+            if row >= 3
                 && file[row][col] == 'X'
                 && file[row - 1][col] == 'M'
                 && file[row - 2][col] == 'A'
@@ -65,7 +66,7 @@ pub fn solve_part1(path: &str) -> String {
             }
 
             if col + 3 < col_count
-                && (row as i32) - 3 >= 0
+                && row >= 3
                 && file[row][col] == 'X'
                 && file[row - 1][col + 1] == 'M'
                 && file[row - 2][col + 2] == 'A'
@@ -74,8 +75,8 @@ pub fn solve_part1(path: &str) -> String {
                 counter += 1;
             }
 
-            if (col as i32) - 3 >= 0
-                && (row as i32) - 3 >= 0
+            if col >= 3
+                && row >= 3
                 && file[row][col] == 'X'
                 && file[row - 1][col - 1] == 'M'
                 && file[row - 2][col - 2] == 'A'
@@ -84,7 +85,7 @@ pub fn solve_part1(path: &str) -> String {
                 counter += 1;
             }
 
-            if (col as i32) - 3 >= 0
+            if col >= 3
                 && row + 3 < row_count
                 && file[row][col] == 'X'
                 && file[row + 1][col - 1] == 'M'
@@ -99,7 +100,7 @@ pub fn solve_part1(path: &str) -> String {
     counter.to_string()
 }
 
-pub fn solve_part2(path: &str) -> String {
+pub fn solve_part2(path: &Path) -> String {
     let file = File::open(path).unwrap();
 
     let file = BufReader::new(file)

@@ -3,9 +3,10 @@ use std::{
     fs::File,
     io::{BufRead, BufReader},
     iter::zip,
+    path::Path,
 };
 
-pub fn solve_part1(path: &str) -> String {
+pub fn solve_part1(path: &Path) -> String {
     let file = File::open(path).unwrap();
 
     let mut left: Vec<i32> = vec![];
@@ -22,8 +23,8 @@ pub fn solve_part1(path: &str) -> String {
         right.push(numbers[1]);
     }
 
-    left.sort();
-    right.sort();
+    left.sort_unstable();
+    right.sort_unstable();
 
     zip(left, right)
         .map(|(l, r)| (l - r).abs())
@@ -31,7 +32,7 @@ pub fn solve_part1(path: &str) -> String {
         .to_string()
 }
 
-pub fn solve_part2(path: &str) -> String {
+pub fn solve_part2(path: &Path) -> String {
     let file = File::open(path).unwrap();
 
     let mut left: Vec<i32> = vec![];
@@ -49,7 +50,7 @@ pub fn solve_part2(path: &str) -> String {
         let current_count = right.get_mut(&numbers[1]);
 
         if let Some(value) = current_count {
-            *value += 1
+            *value += 1;
         } else {
             right.insert(numbers[1], 1);
         }

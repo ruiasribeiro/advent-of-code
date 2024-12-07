@@ -2,9 +2,10 @@ use std::{
     cmp::Ordering,
     fs::File,
     io::{BufRead, BufReader},
+    path::Path,
 };
 
-pub fn solve_part1(path: &str) -> String {
+pub fn solve_part1(path: &Path) -> String {
     let file = File::open(path).unwrap();
 
     BufReader::new(file)
@@ -15,7 +16,7 @@ pub fn solve_part1(path: &str) -> String {
         .to_string()
 }
 
-pub fn solve_part2(path: &str) -> String {
+pub fn solve_part2(path: &Path) -> String {
     let file = File::open(path).unwrap();
 
     BufReader::new(file)
@@ -39,7 +40,7 @@ fn is_report_safe(line: &str) -> bool {
     let order = levels[0].cmp(&levels[1]);
     let diff_value = (levels[0] - levels[1]).abs();
 
-    if order == Ordering::Equal || diff_value < 1 || diff_value > 3 {
+    if order == Ordering::Equal || !(1..=3).contains(&diff_value) {
         return false;
     }
 
@@ -53,12 +54,12 @@ fn is_report_safe(line: &str) -> bool {
 
         let diff_value = (prev - curr).abs();
 
-        if diff_value < 1 || diff_value > 3 {
+        if !(1..=3).contains(&diff_value) {
             return false;
         }
     }
 
-    return true;
+    true
 }
 
 fn is_report_safe_v2(line: &str) -> bool {
@@ -78,7 +79,7 @@ fn is_report_safe_v2(line: &str) -> bool {
         is_report_safe(
             &copy
                 .iter()
-                .map(|x| x.to_string())
+                .map(ToString::to_string)
                 .collect::<Vec<_>>()
                 .join(" "),
         )

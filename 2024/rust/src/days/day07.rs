@@ -1,9 +1,10 @@
 use std::{
     fs::File,
     io::{BufRead, BufReader},
+    path::Path,
 };
 
-pub fn solve_part1(path: &str) -> String {
+pub fn solve_part1(path: &Path) -> String {
     let file = File::open(path).unwrap();
 
     let mut sum = 0;
@@ -25,7 +26,7 @@ pub fn solve_part1(path: &str) -> String {
         for value in values.iter().skip(1) {
             let mut new_possible_values = vec![];
 
-            for possible_value in possible_values.iter() {
+            for possible_value in possible_values {
                 new_possible_values.push(possible_value.checked_add(*value).unwrap());
                 new_possible_values.push(possible_value.checked_mul(*value).unwrap());
             }
@@ -38,10 +39,10 @@ pub fn solve_part1(path: &str) -> String {
         }
     }
 
-    return sum.to_string();
+    sum.to_string()
 }
 
-pub fn solve_part2(path: &str) -> String {
+pub fn solve_part2(path: &Path) -> String {
     let file = File::open(path).unwrap();
 
     let mut sum = 0;
@@ -63,7 +64,7 @@ pub fn solve_part2(path: &str) -> String {
         for value in values.iter().skip(1) {
             let mut new_possible_values = vec![];
 
-            for possible_value in possible_values.iter() {
+            for possible_value in possible_values {
                 new_possible_values.push(possible_value.checked_add(*value).unwrap());
                 new_possible_values.push(possible_value.checked_mul(*value).unwrap());
                 new_possible_values.push({
@@ -81,5 +82,5 @@ pub fn solve_part2(path: &str) -> String {
         }
     }
 
-    return sum.to_string();
+    sum.to_string()
 }
