@@ -28,6 +28,10 @@ fn main() {
             Box::new(|| String::from("skipped")), //days::day06::solve_part1("inputs/day06/input.txt")),
             Box::new(|| String::from("skipped")), //days::day06::solve_part2("inputs/day06/input.txt")),
         ),
+        (
+            Box::new(|| days::day07::solve_part1("inputs/day07/input.txt")),
+            Box::new(|| days::day07::solve_part2("inputs/day07/input.txt")),
+        ),
     ];
 
     for (day, (part1, part2)) in results.iter().enumerate() {
