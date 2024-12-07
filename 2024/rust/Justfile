@@ -1,0 +1,14 @@
+set windows-shell := ["powershell.exe", "-c"]
+
+default:
+    just --list
+
+format:
+    cargo fmt
+
+lint:
+    cargo clippy -- -W clippy::pedantic
+
+run:
+    cargo run --release
+
