@@ -4,6 +4,10 @@ use std::{
     path::Path,
 };
 
+fn calculate_digits(number: i64) -> u32 {
+    number.checked_ilog10().unwrap_or(0) + 1
+}
+
 pub fn solve_part1(path: &Path) -> String {
     let file = File::open(path).unwrap();
 
@@ -68,9 +72,8 @@ pub fn solve_part2(path: &Path) -> String {
                 new_possible_values.push(possible_value.checked_add(*value).unwrap());
                 new_possible_values.push(possible_value.checked_mul(*value).unwrap());
                 new_possible_values.push({
-                    let mut temp = possible_value.to_string();
-                    temp.push_str(&value.to_string());
-                    temp.parse::<i64>().unwrap()
+                    let digits = calculate_digits(*value);
+                    possible_value * 10_i64.pow(digits) + value
                 });
             }
 

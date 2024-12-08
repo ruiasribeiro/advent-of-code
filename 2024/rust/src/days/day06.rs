@@ -6,6 +6,8 @@ use std::{
     path::Path,
 };
 
+use rayon::iter::{ParallelBridge, ParallelIterator};
+
 #[derive(Clone, Copy, Eq, Hash, PartialEq)]
 enum Direction {
     Up,
@@ -88,7 +90,7 @@ impl Map {
         }
     }
 
-    fn generate_all_obstruction_possibilities(path: &Path) -> impl Iterator<Item = Map> {
+    fn generate_all_obstruction_possibilities(path: &Path) -> impl ParallelIterator<Item = Map> {
         let original_map = Self::from_file(path);
         let row_count = original_map.map.len();
         let col_count = original_map.map[0].len();
@@ -101,6 +103,7 @@ impl Map {
 
         (0..row_count)
             .flat_map(move |row| (0..col_count).map(move |col| (row, col)))
+            .par_bridge()
             .filter_map(move |(row, col)| {
                 if let PositionType::Unvisited = original_map.map[row][col] {
                     if row != starting_row || col != starting_col {
@@ -121,21 +124,23 @@ impl Map {
             direction,
         } = self.current_position;
 
-        let updated_position = match self.map.get(row).unwrap().get(col).unwrap() {
-            PositionType::Unvisited => PositionType::Visited({
-                let mut set = HashSet::new();
-                set.insert(direction);
-                set
-            }),
-            PositionType::Visited(set) => PositionType::Visited({
-                let mut set = set.clone();
-                set.insert(direction);
-                set
-            }),
-            PositionType::Obstruction => unreachable!(),
-        };
+        let element = self.map.get_mut(row).unwrap().get_mut(col).unwrap();
 
-        self.map[row][col] = updated_position;
+        match element {
+            PositionType::Unvisited => {
+                *element = PositionType::Visited({
+                    let mut set = HashSet::new();
+                    set.insert(direction);
+                    set
+                });
+            }
+
+            PositionType::Visited(set) => {
+                set.insert(direction);
+            }
+
+            PositionType::Obstruction => unreachable!(),
+        }
 
         match self.get_next_position() {
             Ok(next_position) => {
@@ -262,9 +267,7 @@ pub fn solve_part1(path: &Path) -> String {
 
 pub fn solve_part2(path: &Path) -> String {
     Map::generate_all_obstruction_possibilities(path)
-        .map(|map| {
-            let mut map = map.clone();
-
+        .map(|mut map| {
             let mut result = Ok(());
 
             while result.is_ok() {

@@ -3,11 +3,17 @@ set windows-shell := ["powershell.exe", "-c"]
 default:
     just --list
 
+build:
+    cargo build --release
+
 format:
     cargo fmt
 
 lint:
     cargo clippy -- -W clippy::pedantic
+
+profile: build
+    samply record ./target/release/advent-of-code-2024
 
 run:
     cargo run --release
