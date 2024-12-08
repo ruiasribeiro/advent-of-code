@@ -6,11 +6,11 @@ use std::{
     time::{Duration, Instant},
 };
 
-use days::{day01, day02, day03, day04, day05, day06, day07};
+use days::{day01, day02, day03, day04, day05, day06, day07, day08};
 
-type SolveDay = fn(&Path) -> String;
+type Solver = fn(&Path) -> String;
 
-const SOLVERS: [(&str, SolveDay, SolveDay); 7] = [
+const SOLVERS: [(&str, Solver, Solver); 8] = [
     ("day01", day01::solve_part1, day01::solve_part2),
     ("day02", day02::solve_part1, day02::solve_part2),
     ("day03", day03::solve_part1, day03::solve_part2),
@@ -18,6 +18,7 @@ const SOLVERS: [(&str, SolveDay, SolveDay); 7] = [
     ("day05", day05::solve_part1, day05::solve_part2),
     ("day06", day06::solve_part1, day06::solve_part2),
     ("day07", day07::solve_part1, day07::solve_part2),
+    ("day08", day08::solve_part1, day08::solve_part2),
 ];
 
 const FILE_NAME: &str = "input.txt";
