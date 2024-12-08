@@ -18,3 +18,5 @@ profile: build
 run:
     cargo run --release
 
+run-example:
+    cargo run --release -- "example.txt"

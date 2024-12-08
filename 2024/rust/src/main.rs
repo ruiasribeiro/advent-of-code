@@ -1,35 +1,44 @@
 mod days;
 
 use std::{
-    io::{stdout, Write},
+    env,
+    io::{self, Write},
     path::Path,
     time::{Duration, Instant},
 };
 
-use days::{day01, day02, day03, day04, day05, day06, day07, day08};
-
 type Solver = fn(&Path) -> String;
 
 const SOLVERS: [(&str, Solver, Solver); 8] = [
-    ("day01", day01::solve_part1, day01::solve_part2),
-    ("day02", day02::solve_part1, day02::solve_part2),
-    ("day03", day03::solve_part1, day03::solve_part2),
-    ("day04", day04::solve_part1, day04::solve_part2),
-    ("day05", day05::solve_part1, day05::solve_part2),
-    ("day06", day06::solve_part1, day06::solve_part2),
-    ("day07", day07::solve_part1, day07::solve_part2),
-    ("day08", day08::solve_part1, day08::solve_part2),
+    ("day01", days::day01::solve_part1, days::day01::solve_part2),
+    ("day02", days::day02::solve_part1, days::day02::solve_part2),
+    ("day03", days::day03::solve_part1, days::day03::solve_part2),
+    ("day04", days::day04::solve_part1, days::day04::solve_part2),
+    ("day05", days::day05::solve_part1, days::day05::solve_part2),
+    ("day06", days::day06::solve_part1, days::day06::solve_part2),
+    ("day07", days::day07::solve_part1, days::day07::solve_part2),
+    ("day08", days::day08::solve_part1, days::day08::solve_part2),
 ];
 
-const FILE_NAME: &str = "input.txt";
+const DEFAULT_FILE_NAME: &str = "input.txt";
 
 fn print_result(result: &str, duration: &Duration) {
     print!("{:>14} ({:>6.3}s)", result, duration.as_secs_f64());
 }
 
 fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let file_name = if args.len() >= 2 {
+        println!("using '{}' for the input data", args[1]);
+        &args[1]
+    } else {
+        println!("using the default file name ('{DEFAULT_FILE_NAME}')");
+        DEFAULT_FILE_NAME
+    };
+
     for (day, part1, part2) in SOLVERS {
-        let path_name = format!("inputs/{day}/{FILE_NAME}");
+        let path_name = format!("inputs/{day}/{file_name}");
         let path = Path::new(&path_name);
 
         print!("{day}: ");
@@ -40,7 +49,7 @@ fn main() {
 
         print_result(&part1_result, &part1_duration);
 
-        stdout().flush().unwrap();
+        io::stdout().flush().unwrap();
 
         let start = Instant::now();
         let part2_result = part2(path);
