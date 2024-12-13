@@ -9,7 +9,7 @@ use std::{
 
 type Solver = fn(&Path) -> String;
 
-const SOLVERS: [(&str, Solver, Solver); 12] = [
+const SOLVERS: [(&str, Solver, Solver); 13] = [
     ("day01", days::day01::solve_part1, days::day01::solve_part2),
     ("day02", days::day02::solve_part1, days::day02::solve_part2),
     ("day03", days::day03::solve_part1, days::day03::solve_part2),
@@ -22,6 +22,7 @@ const SOLVERS: [(&str, Solver, Solver); 12] = [
     ("day10", days::day10::solve_part1, days::day10::solve_part2),
     ("day11", days::day11::solve_part1, days::day11::solve_part2),
     ("day12", days::day12::solve_part1, days::day12::solve_part2),
+    ("day13", days::day13::solve_part1, days::day13::solve_part2),
 ];
 
 const DEFAULT_FILE_NAME: &str = "input.txt";

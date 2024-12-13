@@ -4,5 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+good_lp = { version = "1.10.0", features = ["microlp"], default-features = false }
 rayon = "1.10.0"
 regex = "1.11.1"
