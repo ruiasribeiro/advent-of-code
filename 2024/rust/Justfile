@@ -16,7 +16,13 @@ profile: build
     samply record ./target/release/advent-of-code-2024
 
 run:
-    cargo run --release
+    cargo run --release -- solve
 
 run-example:
-    cargo run --release -- "example.txt"
+    cargo run --release -- solve --input "example.txt"
+
+run-day day:
+    cargo run --release -- solve {{day}}
+
+run-day-example day:
+    cargo run --release -- solve {{day}} --input "example.txt"
