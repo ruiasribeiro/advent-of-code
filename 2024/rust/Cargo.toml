@@ -8,5 +8,6 @@ anyhow = "1.0.94"
 clap = { version = "4.5.23", features = ["derive"] }
 good_lp = { version = "1.10.0", features = ["microlp"], default-features = false }
 num-bigint = "0.4.6"
+pathfinding = "4.12.0"
 rayon = "1.10.0"
 regex = "1.11.1"
