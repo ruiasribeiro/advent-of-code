@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.94"
+cached = "0.54.0"
 clap = { version = "4.5.23", features = ["derive"] }
 good_lp = { version = "1.10.0", features = ["microlp"], default-features = false }
 num-bigint = "0.4.6"
