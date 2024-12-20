@@ -56,24 +56,21 @@ impl Simulation {
     fn get_successors(&self, position: Position) -> Vec<Position> {
         let mut successors = vec![];
 
-        let row_count = self.space.len();
-        let col_count = self.space[0].len();
-
         let Position { row, col } = position;
 
-        if row > 0 && self.space[row - 1][col] {
+        if self.space[row - 1][col] {
             successors.push(Position { row: row - 1, col });
         }
 
-        if col > 0 && self.space[row][col - 1] {
+        if self.space[row][col - 1] {
             successors.push(Position { row, col: col - 1 });
         }
 
-        if row < row_count - 1 && self.space[row + 1][col] {
+        if self.space[row + 1][col] {
             successors.push(Position { row: row + 1, col });
         }
 
-        if col < col_count - 1 && self.space[row][col + 1] {
+        if self.space[row][col + 1] {
             successors.push(Position { row, col: col + 1 });
         }
 
@@ -81,55 +78,52 @@ impl Simulation {
     }
 
     fn calculate_cheating_possibilities(&self, threshold: i32, allowed_skips: i32) -> usize {
-        let regular_result = pathfinding::prelude::bfs(
-            &self.start,
+        // The problem prompt states that there is only a single path to be
+        // taken, so using pathfinding here is basically overkill.
+        let path = pathfinding::prelude::dfs(
+            self.start,
             |position| self.get_successors(*position),
             |position| *position == self.end,
         )
         .unwrap();
 
-        let steps_per_position = regular_result
+        let steps_taken_per_position = path
             .iter()
             .enumerate()
             .map(|(steps, position)| (*position, steps))
             .collect::<HashMap<_, _>>();
 
-        regular_result
-            .iter()
-            .enumerate()
-            .map(|(current_cost, Position { row, col })| {
-                self.space
-                    .iter()
-                    .enumerate()
-                    .flat_map(|(r, tiles)| {
-                        tiles
-                            .iter()
-                            .enumerate()
-                            .filter(|(_c, tile)| **tile)
-                            .map(move |(c, _tile)| Position { row: r, col: c })
-                    })
-                    .filter(|position @ Position { row: r, col: c }| {
-                        let steps = (i32::try_from(*row).unwrap() - i32::try_from(*r).unwrap())
-                            .abs()
-                            + (i32::try_from(*col).unwrap() - i32::try_from(*c).unwrap()).abs();
+        let mut cheating_possibilities = 0;
 
-                        if steps > allowed_skips {
-                            return false;
-                        }
+        for (current_cost, Position { row, col }) in path.iter().enumerate() {
+            cheating_possibilities += path[current_cost + 1..]
+                .iter()
+                .filter(|to| {
+                    let from_row = i32::try_from(*row).unwrap();
+                    let from_col = i32::try_from(*col).unwrap();
 
-                        match steps_per_position.get(position) {
-                            Some(distance) => {
-                                (i32::try_from(*distance).unwrap()
-                                    - i32::try_from(current_cost).unwrap())
-                                    - steps
-                                    >= threshold
-                            }
-                            None => false,
-                        }
-                    })
-                    .count()
-            })
-            .sum()
+                    let to_row = i32::try_from(to.row).unwrap();
+                    let to_col = i32::try_from(to.col).unwrap();
+
+                    let steps_between = (from_row - to_row).abs() + (from_col - to_col).abs();
+
+                    if steps_between > allowed_skips {
+                        return false;
+                    }
+
+                    if let Some(to_distance) = steps_taken_per_position.get(to) {
+                        let from_distance = i32::try_from(current_cost).unwrap();
+                        let to_distance = i32::try_from(*to_distance).unwrap();
+
+                        (to_distance - from_distance) - steps_between >= threshold
+                    } else {
+                        false
+                    }
+                })
+                .count();
+        }
+
+        cheating_possibilities
     }
 }
 
