@@ -13,7 +13,7 @@ use cli::{Cli, Commands};
 
 type Solver = fn(&Path) -> String;
 
-const SOLVERS: [(Solver, Solver); 22] = [
+const SOLVERS: [(Solver, Solver); 23] = [
     (days::day01::solve_part1, days::day01::solve_part2),
     (days::day02::solve_part1, days::day02::solve_part2),
     (days::day03::solve_part1, days::day03::solve_part2),
@@ -36,6 +36,7 @@ const SOLVERS: [(Solver, Solver); 22] = [
     (days::day20::solve_part1, days::day20::solve_part2),
     (days::day21::solve_part1, days::day21::solve_part2),
     (days::day22::solve_part1, days::day22::solve_part2),
+    (days::day23::solve_part1, days::day23::solve_part2),
 ];
 
 fn main() {
@@ -91,5 +92,5 @@ fn solve_day(day: usize, input: &str) -> Result<(), anyhow::Error> {
 }
 
 fn print_result(result: &str, duration: &Duration) {
-    print!("{:>19} ({:>6.3}s)", result, duration.as_secs_f64());
+    print!("{:>38} ({:>6.3}s)", result, duration.as_secs_f64());
 }
