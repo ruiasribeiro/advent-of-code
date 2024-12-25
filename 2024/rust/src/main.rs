@@ -13,7 +13,7 @@ use cli::{Cli, Commands};
 
 type Solver = fn(&Path) -> String;
 
-const SOLVERS: [(Solver, Solver); 24] = [
+const SOLVERS: [(Solver, Solver); 25] = [
     (days::day01::solve_part1, days::day01::solve_part2),
     (days::day02::solve_part1, days::day02::solve_part2),
     (days::day03::solve_part1, days::day03::solve_part2),
@@ -38,6 +38,7 @@ const SOLVERS: [(Solver, Solver); 24] = [
     (days::day22::solve_part1, days::day22::solve_part2),
     (days::day23::solve_part1, days::day23::solve_part2),
     (days::day24::solve_part1, days::day24::solve_part2),
+    (days::day25::solve_part1, days::day25::solve_part2),
 ];
 
 fn main() {
