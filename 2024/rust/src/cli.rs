@@ -1,3 +1,5 @@
+use clap::value_parser;
+
 #[derive(Debug, clap::Parser)]
 #[command(about = "A solver for Advent of Code 2024", long_about = None)]
 pub struct Cli {
@@ -9,7 +11,10 @@ pub struct Cli {
 pub enum Commands {
     /// Fetch the input file for a given day
     #[command(arg_required_else_help = true)]
-    Fetch { day: u8 },
+    Fetch {
+        #[arg(value_parser = value_parser!(u8).range(1..=25))]
+        day: u8,
+    },
 
     /// Solve any given day(s) of Advent of Code 2024
     Solve {

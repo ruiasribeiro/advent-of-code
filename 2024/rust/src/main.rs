@@ -2,6 +2,9 @@ mod cli;
 mod days;
 
 use std::{
+    collections::HashMap,
+    env,
+    fs::{self, File},
     io::{self, Write},
     path::Path,
     time::{Duration, Instant},
@@ -41,12 +44,64 @@ const SOLVERS: [(Solver, Solver); 25] = [
     (days::day25::solve_part1, days::day25::solve_part2),
 ];
 
-fn main() {
+fn main() -> Result<(), anyhow::Error> {
     let args = Cli::parse();
 
     match args.command {
-        Commands::Fetch { .. } => todo!(),
+        Commands::Fetch { day } => fetch_day_input(day)?,
         Commands::Solve { day, input } => solve(day, input),
+    };
+
+    Ok(())
+}
+
+fn fetch_day_input(day: u8) -> Result<(), anyhow::Error> {
+    let target_file_name = format!("./inputs/day{day:02}/input.txt");
+    let target_file = Path::new(&target_file_name);
+
+    if target_file.exists() {
+        return Err(anyhow::anyhow!(
+            "'{}' already exists; skipping...",
+            target_file.display()
+        ));
+    }
+
+    dotenvy::dotenv()?;
+
+    let session = {
+        let env = env::vars().collect::<HashMap<_, _>>();
+        env.get("AOC_SESSION").map(ToOwned::to_owned)
+    };
+
+    match session {
+        None => Err(anyhow::anyhow!("could not find AOC_SESSION in env")),
+
+        Some(session) => {
+            let mut request_headers = reqwest::header::HeaderMap::new();
+            request_headers.insert(
+                reqwest::header::COOKIE,
+                reqwest::header::HeaderValue::from_str(&format!("session={session}"))?,
+            );
+
+            let client = reqwest::blocking::Client::builder()
+                .default_headers(request_headers)
+                .build()?;
+
+            let input = client
+                .get(format!("https://adventofcode.com/2024/day/{day}/input"))
+                .send()?
+                .bytes()?;
+
+            fs::create_dir_all(
+                target_file
+                    .parent()
+                    .ok_or(anyhow::anyhow!("could not get parent directory"))?,
+            )?;
+
+            File::create(target_file)?.write_all(input.trim_ascii())?;
+
+            Ok(())
+        }
     }
 }
 
