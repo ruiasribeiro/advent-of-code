@@ -1,0 +1,34 @@
+set windows-shell := ["powershell.exe", "-c"]
+
+default:
+    just --list
+
+build:
+    cargo build --release
+
+format:
+    cargo fmt
+
+lint:
+    cargo clippy -- -W clippy::pedantic
+
+profile:
+    cargo build 
+    samply record ./target/debug/advent-of-code-2024
+
+
+
+fetch year day:
+    cargo run --release -- fetch {{year}} {{day}}    
+
+run year day:
+    cargo run --release -- solve {{year}} {{day}}
+
+run-example year day:
+    cargo run --release -- solve {{year}} {{day}} --input "example.txt"
+
+run-all year:
+    cargo run --release -- solve {{year}}
+
+run-all-example year:
+    cargo run --release -- solve {{year}} --input "example.txt"
