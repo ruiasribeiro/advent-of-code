@@ -1,5 +1,6 @@
 mod cli;
 mod utils;
+mod year2015;
 mod year2024;
 
 use std::{
@@ -18,6 +19,7 @@ use utils::Solver;
 
 fn get_available_days(year: u16) -> Result<Vec<u8>, anyhow::Error> {
     match year {
+        2015 => Ok(year2015::get_available_days()),
         2024 => Ok(year2024::get_available_days()),
         _ => Err(anyhow::anyhow!("year {year} is not available")),
     }
@@ -25,6 +27,7 @@ fn get_available_days(year: u16) -> Result<Vec<u8>, anyhow::Error> {
 
 fn get_day_solvers(year: u16, day: u8) -> Result<(Solver, Solver), anyhow::Error> {
     match year {
+        2015 => year2015::get_day_solvers(day),
         2024 => year2024::get_day_solvers(day),
         _ => Err(anyhow::anyhow!("year {year} is not available")),
     }
