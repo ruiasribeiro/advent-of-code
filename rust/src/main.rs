@@ -1,5 +1,5 @@
 mod cli;
-mod interface;
+mod utils;
 mod year2024;
 
 use std::{
@@ -14,7 +14,7 @@ use std::{
 use clap::Parser;
 
 use cli::{Cli, Commands};
-use interface::Solver;
+use utils::Solver;
 
 fn get_available_days(year: u16) -> Result<Vec<u8>, anyhow::Error> {
     match year {

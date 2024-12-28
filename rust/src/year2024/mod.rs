@@ -24,7 +24,7 @@ pub mod day23;
 pub mod day24;
 pub mod day25;
 
-use crate::interface::Solver;
+use crate::utils::Solver;
 
 pub fn get_day_solvers(day: u8) -> Result<(Solver, Solver), anyhow::Error> {
     match day {
