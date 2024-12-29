@@ -11,6 +11,8 @@ dotenvy = "0.15.7"
 good_lp = { version = "1.10.0", features = [
     "microlp",
 ], default-features = false }
+hex = "0.4.3"
+md-5 = "0.10.6"
 num-bigint = "0.4.6"
 pathfinding = "4.12.0"
 rayon = "1.10.0"
